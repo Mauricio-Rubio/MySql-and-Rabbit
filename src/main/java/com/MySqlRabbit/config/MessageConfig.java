@@ -5,14 +5,20 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MessageConfig {
-    public static final String QUEUE = "my-queue";
-    public static final String EXCHANGE = "my-exchange";
-    public static final String ROUTING_KEY = "my-routing-key";
+    //public static final String QUEUE = "my-queue";
+    @Value("${rabbit.shooter.queue}")
+    private String QUEUE;
+
+    @Value("${rabbit.shooter.exchange}")
+    private String EXCHANGE;
+    //public static final String EXCHANGE = "my-exchange";
+    //public static final String ROUTING_KEY = "my-routing-key";
     
     @Bean
     public Queue queue(){
@@ -26,7 +32,7 @@ public class MessageConfig {
 
     @Bean
     public Binding binding(Queue queue, TopicExchange topicExchange){
-        return BindingBuilder.bind(queue).to(topicExchange).with(ROUTING_KEY);
+        return BindingBuilder.bind(queue).to(topicExchange).with(QUEUE);
     }
 
     @Bean

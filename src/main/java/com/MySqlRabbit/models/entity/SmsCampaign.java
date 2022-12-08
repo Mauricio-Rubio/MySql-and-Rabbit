@@ -1,4 +1,4 @@
-package com.MySqlRabbit.persistance.entity;
+package com.MySqlRabbit.models.entity;
 
 
 import jakarta.persistence.*;
